@@ -1,7 +1,21 @@
 package com.blooddonationsystem.backend.Entity;
 
-import jakarta.persistence.*;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "users")
@@ -19,37 +33,39 @@ public class UserEntity {
     private String password;
 
     @Enumerated(EnumType.STRING)
+    @Column(length = 10)
     private Role role;
 
     public enum Role {
-        DONOR,
-        RECIPIENT,
+        USER,
         ADMIN
     }
 
-    // ✅ One admin can manage one hospital
     @OneToOne(mappedBy = "admin", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties({"admin", "donations", "verifiedDocuments"})
     private HospitalClinicEntity managedHospital;
 
-    // ✅ One donor can have many blood donations
     @OneToMany(mappedBy = "donor", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties({"donor", "hospital", "reviewedBy"})
     private List<BloodDonationEntity> donations;
 
-    // ✅ One recipient can submit many verified documents
     @OneToMany(mappedBy = "recipient", cascade = CascadeType.ALL)
-    private List<VerifiedDocumentEntity> verifiedDocuments;
-
-    // ✅ One recipient can be assigned to multiple blood inventory entries
-    @OneToMany(mappedBy = "recipient", cascade = CascadeType.ALL)
+    @JsonIgnore // not critical for response, prevent loops with inventory
     private List<BloodInventoryEntity> assignedInventories;
 
-    // ✅ Used to track donations or documents this admin has reviewed
+    @OneToMany(mappedBy = "recipient", cascade = CascadeType.ALL)
+    @JsonIgnore // same logic as above
+    private List<VerifiedDocumentEntity> verifiedDocuments;
+
     @OneToMany(mappedBy = "reviewedBy")
+    @JsonIgnore
     private List<BloodDonationEntity> reviewedDonations;
 
     @OneToMany(mappedBy = "reviewedBy")
+    @JsonIgnore
     private List<VerifiedDocumentEntity> reviewedDocuments;
 
+    // Constructors
     public UserEntity() {}
 
     public UserEntity(String firstName, String lastName, String email, String contactNumber, String address, String password, Role role) {
@@ -63,9 +79,11 @@ public class UserEntity {
     }
 
     // Getters and Setters
-
     public int getUserId() {
         return userId;
+    }
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String getFirstName() {
@@ -131,13 +149,6 @@ public class UserEntity {
         this.donations = donations;
     }
 
-    public List<VerifiedDocumentEntity> getVerifiedDocuments() {
-        return verifiedDocuments;
-    }
-    public void setVerifiedDocuments(List<VerifiedDocumentEntity> verifiedDocuments) {
-        this.verifiedDocuments = verifiedDocuments;
-    }
-
     public List<BloodInventoryEntity> getAssignedInventories() {
         return assignedInventories;
     }
@@ -145,10 +156,16 @@ public class UserEntity {
         this.assignedInventories = assignedInventories;
     }
 
+    public List<VerifiedDocumentEntity> getVerifiedDocuments() {
+        return verifiedDocuments;
+    }
+    public void setVerifiedDocuments(List<VerifiedDocumentEntity> verifiedDocuments) {
+        this.verifiedDocuments = verifiedDocuments;
+    }
+
     public List<BloodDonationEntity> getReviewedDonations() {
         return reviewedDonations;
     }
-
     public void setReviewedDonations(List<BloodDonationEntity> reviewedDonations) {
         this.reviewedDonations = reviewedDonations;
     }
@@ -156,7 +173,6 @@ public class UserEntity {
     public List<VerifiedDocumentEntity> getReviewedDocuments() {
         return reviewedDocuments;
     }
-
     public void setReviewedDocuments(List<VerifiedDocumentEntity> reviewedDocuments) {
         this.reviewedDocuments = reviewedDocuments;
     }

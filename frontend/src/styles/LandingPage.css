@@ -1,0 +1,318 @@
+.landing-page {
+    text-align: center;
+    margin-top: 80px;
+  }
+  
+  .landing-hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 0;
+  }
+  
+  .hero-left-img {
+    width: 160px; /* smaller heart bag */
+    height: auto;
+  }
+  
+  .hero-right-img {
+    width: 260px; /* larger doctor illustration */
+    height: auto;
+  }
+  
+  .hero-title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .hero-red {
+    color: red;
+    font-weight: bold;
+  }
+  
+  .hero-black {
+    color: black;
+    font-weight: bold;
+  }
+  
+  .hero-buttons {
+    margin-top: 40px;
+  }
+  
+  .hero-card {
+    width: 220px;
+    height: 100px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: white;
+    font-size: 14px;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+  }
+  
+  .hero-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .red {
+    background-color: #e50914;
+  }
+  
+  .red-dark {
+    background-color: #b71c1c;
+  }
+  
+  .brown {
+    background-color: #4e0000;
+  }
+  
+  .donation-info-section {
+    display: flex;
+    justify-content: flex-start;
+    padding: 150px 0 0 40px;
+  }
+  
+  .donation-fact-wrapper {
+    max-width: 65%;
+  }
+  
+  .donation-fact-image {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+  
+  .blood-type-section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    padding: 80px 20px;
+  }
+  
+  .compatibility-image {
+    flex: 1 1 50%;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .blood-image {
+    flex: 1 1 40%;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .compatibility-image img,
+  .blood-image img {
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+  
+  /* FOOTER */
+  .basic-footer {
+    width: 100%;
+    background-color: #e50914; /* red like the rest of the footer */
+    color: white;
+    padding: 20px;
+    margin-top: 60px;
+    font-size: 14px;
+  }
+  
+  .footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  
+  .footer-links {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+  }
+  
+  .footer-links a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  
+  .footer-links a:hover {
+    text-decoration: underline;
+  }
+  
+  @media (max-width: 1200px) {
+    .hero-left-img {
+      width: 140px;
+    }
+  
+    .hero-right-img {
+      width: 230px;
+    }
+  
+    .hero-title {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .hero-buttons {
+      margin-top: 30px;
+    }
+  
+    .hero-card {
+      width: 180px;
+      height: 90px;
+    }
+  
+    .donation-info-section {
+      padding: 100px 0 0 20px;
+      justify-content: center;
+    }
+  
+    .blood-type-section {
+      flex-direction: column;
+      padding: 40px 20px;
+    }
+  
+    .compatibility-image,
+    .blood-image {
+      flex: 1 1 100%;
+      justify-content: center;
+    }
+  
+    .footer-content {
+      text-align: center;
+      padding: 10px 20px;
+    }
+  
+    .footer-links {
+      gap: 20px;
+    }
+  }
+  
+  @media (max-width: 992px) {
+    .hero-left-img {
+      width: 120px;
+    }
+  
+    .hero-right-img {
+      width: 200px;
+    }
+  
+    .hero-card {
+      width: 160px;
+      height: 80px;
+    }
+  
+    .donation-info-section {
+      padding: 80px 0 0 20px;
+      justify-content: center;
+    }
+  
+    .blood-type-section {
+      flex-direction: column;
+      gap: 30px;
+      padding: 40px 15px;
+    }
+  
+    .compatibility-image,
+    .blood-image {
+      flex: 1 1 100%;
+      justify-content: center;
+    }
+  
+    .footer-links {
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .hero-left-img {
+      width: 100px;
+    }
+  
+    .hero-right-img {
+      width: 180px;
+    }
+  
+    .hero-title {
+      padding: 0 20px;
+    }
+  
+    .hero-card {
+      width: 150px;
+      height: 70px;
+      font-size: 12px;
+    }
+  
+    .donation-info-section {
+      padding: 60px 0 0 20px;
+      justify-content: center;
+    }
+  
+    .blood-type-section {
+      flex-direction: column;
+      gap: 20px;
+      padding: 20px 10px;
+    }
+  
+    .footer-content {
+      padding: 10px;
+    }
+  
+    .footer-links {
+      gap: 10px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .hero-left-img {
+      width: 80px;
+    }
+  
+    .hero-right-img {
+      width: 160px;
+    }
+  
+    .hero-title {
+      padding: 0 15px;
+    }
+  
+    .hero-card {
+      width: 140px;
+      height: 60px;
+      font-size: 10px;
+    }
+  
+    .donation-info-section {
+      padding: 40px 0 0 10px;
+      justify-content: center;
+    }
+  
+    .blood-type-section {
+      flex-direction: column;
+      gap: 15px;
+      padding: 15px 5px;
+    }
+  
+    .footer-content {
+      padding: 10px 5px;
+    }
+  
+    .footer-links {
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+  }
+  

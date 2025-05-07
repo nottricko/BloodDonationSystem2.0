@@ -1,0 +1,100 @@
+.login-page {
+    background-size: cover;
+    background-color: white;
+    background-attachment: fixed;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    position: relative;
+    padding-top: 40px;
+  }
+
+  .logo-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px; /* spacing between image and text */
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .logo-img {
+    width: 60px;
+    height: auto;
+  }
+  .title-text {
+    display: flex;
+    flex-direction: column;
+  }
+  .title-red {
+    color: red;
+    font-size: 22px;
+    font-weight: bold;
+    margin: 0;
+    text-align: left;
+  }
+  
+  .title-black {
+    color: black;
+    font-size: 18px;
+    margin: 0;
+    text-align: left;
+  } 
+  .login-form {
+    width: 90%;
+    max-width: 340px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 20px;
+    z-index: 1;
+  }
+  
+  .login-form input {
+    padding: 12px 16px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .login-btn {
+    background-color: green;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    border: none;
+    border-radius: 10px;
+    padding: 12px;
+    cursor: pointer;
+  }
+  
+  .register-link {
+    font-size: 14px;
+    text-align: center;
+  }
+  
+  .register-link span {
+    color: red;
+  }
+  
+  .register-link a {
+    color: black;
+    font-weight: bold;
+    text-decoration: none;
+  }
+  
+  .bottom-bg {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;          /* make it full width */
+    height: auto;
+    max-height: 280px;    /* slightly smaller max height for tighter fit */
+    object-fit: cover;
+    z-index: 0;
+    pointer-events: none; /* so it doesn’t block form interactions */
+  }
+  

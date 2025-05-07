@@ -1,0 +1,64 @@
+.request-blood-container {
+    min-height: 100vh;
+    background-color: #fefefe;
+  }
+  
+  .request-blood-content {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 80px 20px;
+  }
+  
+  .request-title {
+    font-size: 28px;
+    font-weight: bold;
+    color: #c0392b;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .no-data-message {
+    text-align: center;
+    font-size: 16px;
+    color: #666;
+  }
+  
+  .request-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+  }
+  
+  .request-card {
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease;
+  }
+  
+  .request-card:hover {
+    transform: translateY(-4px);
+  }
+  
+  .request-card p {
+    margin-bottom: 8px;
+    color: #333;
+  }
+  
+  .request-button {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 10px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+  }
+  
+  .request-button:hover {
+    background-color: #c0392b;
+  }
+  

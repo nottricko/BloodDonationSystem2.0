@@ -1,8 +1,16 @@
 package com.blooddonationsystem.backend.Entity;
 
-import jakarta.persistence.*;
-
 import java.time.LocalDate;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "blood_inventory")
@@ -21,7 +29,10 @@ public class BloodInventoryEntity {
 
     @ManyToOne
     @JoinColumn(name = "recipient_id")
-    private UserEntity recipient; // Only if document is verified
+    private UserEntity recipient;
+
+    @Column(name = "request_status")
+    private String requestStatus; // NONE, REQUESTED, APPROVED, REJECTED
 
     public BloodInventoryEntity() {}
 
@@ -30,14 +41,18 @@ public class BloodInventoryEntity {
         this.storedDate = storedDate;
         this.donation = donation;
         this.recipient = recipient;
+        this.requestStatus = "NONE";
     }
 
     // Getters and Setters
     public int getInventoryId() {
         return inventoryId;
     }
+    public void setInventoryId(int inventoryId) {
+        this.inventoryId = inventoryId;
+    }
 
-    public String getBloodType() {
+    public String getBloodType() {  
         return bloodType;
     }
     public void setBloodType(String bloodType) {
@@ -63,6 +78,14 @@ public class BloodInventoryEntity {
     }
     public void setRecipient(UserEntity recipient) {
         this.recipient = recipient;
+    }
+    
+    public String getRequestStatus() {
+        return requestStatus;
+    }
+    
+    public void setRequestStatus(String requestStatus) {
+        this.requestStatus = requestStatus;
     }
     
 }

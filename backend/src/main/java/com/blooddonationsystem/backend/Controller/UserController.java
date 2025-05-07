@@ -1,13 +1,25 @@
 package com.blooddonationsystem.backend.Controller;
 
-import com.blooddonationsystem.backend.DTO.LoginRequest;
-import com.blooddonationsystem.backend.Entity.UserEntity;
-import com.blooddonationsystem.backend.Service.UserService;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import com.blooddonationsystem.backend.DTO.LoginRequest;
+import com.blooddonationsystem.backend.DTO.RegisterRequest;
+import com.blooddonationsystem.backend.Entity.UserEntity;
+import com.blooddonationsystem.backend.Service.UserService;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/users")
@@ -18,12 +30,23 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<UserEntity> register(@RequestBody UserEntity user) {
+    public ResponseEntity<UserEntity> registerUser(@Valid @RequestBody RegisterRequest req) {
+        UserEntity user = new UserEntity(
+            req.getFirstName(),
+            req.getLastName(),
+            req.getEmail(),
+            req.getContactNumber(),
+            req.getAddress(),
+            req.getPassword(),
+            UserEntity.Role.valueOf(req.getRole())
+
+        );
         return ResponseEntity.ok(userService.registerUser(user));
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
+
+    @PostMapping("/login/manual")
+    public ResponseEntity<?> login(@Valid @RequestBody LoginRequest request) {
         try {
             UserEntity user = userService.login(request.getEmail(), request.getPassword());
             return ResponseEntity.ok("Login successful for " + user.getEmail());
@@ -44,6 +67,12 @@ public class UserController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<UserEntity> update(@PathVariable int id, @RequestBody UserEntity user) {
+        user.setUserId(id);
+        return ResponseEntity.ok(userService.save(user));
+    }
+    
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable int id) {
         userService.deleteUser(id);

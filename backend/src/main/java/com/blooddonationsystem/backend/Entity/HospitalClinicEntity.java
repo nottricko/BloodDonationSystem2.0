@@ -1,7 +1,19 @@
 package com.blooddonationsystem.backend.Entity;
 
-import jakarta.persistence.*;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "hospital_clinic")
@@ -17,9 +29,11 @@ public class HospitalClinicEntity {
 
     @OneToOne
     @JoinColumn(name = "admin_id")
+    @JsonIgnoreProperties({"managedHospital", "donations", "assignedInventories", "reviewedDonations", "reviewedDocuments", "verifiedDocuments"})
     private UserEntity admin;
 
     @OneToMany(mappedBy = "hospital", cascade = CascadeType.ALL)
+    @JsonIgnore 
     private List<BloodDonationEntity> donations;
 
     @OneToMany(mappedBy = "hospital", cascade = CascadeType.ALL)
@@ -37,6 +51,9 @@ public class HospitalClinicEntity {
     // Getters and Setters
     public int getHospitalId() {
         return hospitalId;
+    }
+    public void setHospitalId(int hospitalId) {
+        this.hospitalId = hospitalId;
     }
 
     public String getName() {

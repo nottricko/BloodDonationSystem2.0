@@ -32,6 +32,12 @@ public class HospitalClinicController {
         return entity != null ? ResponseEntity.ok(entity) : ResponseEntity.notFound().build();
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<HospitalClinicEntity> update(@PathVariable int id, @RequestBody HospitalClinicEntity entity) {
+        entity.setHospitalId(id);
+        return ResponseEntity.ok(service.save(entity));
+    }
+    
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable int id) {
         service.delete(id);

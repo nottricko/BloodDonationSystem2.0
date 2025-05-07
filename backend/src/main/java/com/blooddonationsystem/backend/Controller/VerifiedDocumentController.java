@@ -1,13 +1,22 @@
 package com.blooddonationsystem.backend.Controller;
 
-import com.blooddonationsystem.backend.Entity.VerifiedDocumentEntity;
-import com.blooddonationsystem.backend.Service.VerifiedDocumentService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.blooddonationsystem.backend.Entity.VerifiedDocumentEntity;
+import com.blooddonationsystem.backend.Service.VerifiedDocumentService;
 
 @RestController
 @RequestMapping("/api/documents")
@@ -42,7 +51,13 @@ public class VerifiedDocumentController {
     public ResponseEntity<List<VerifiedDocumentEntity>> getByStatus(@PathVariable String status) {
         return ResponseEntity.ok(service.getByStatus(status));
     }
-
+    
+    @PutMapping("/{id}")
+    public ResponseEntity<VerifiedDocumentEntity> update(@PathVariable int id, @RequestBody VerifiedDocumentEntity entity) {
+        entity.setDocumentId(id); // ensure consistency
+        return ResponseEntity.ok(service.save(entity));
+    }
+    
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable int id) {
         service.delete(id);
