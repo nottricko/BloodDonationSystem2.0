@@ -1,10 +1,14 @@
 package com.blooddonationsystem.backend.Service;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.blooddonationsystem.backend.Entity.BloodInventoryEntity;
 import com.blooddonationsystem.backend.Entity.VerifiedDocumentEntity;
@@ -20,10 +24,22 @@ public class VerifiedDocumentService {
     @Autowired
     private BloodInventoryRepository bloodInventoryRepository;
 
+    public String saveFile(MultipartFile file) throws IOException {
+        String uploadDir = System.getProperty("user.home") + File.separator + "blood_donation_uploads";
+        File uploadFolder = new File(uploadDir);
+        if (!uploadFolder.exists()) uploadFolder.mkdirs();
+    
+        String filename = UUID.randomUUID() + "_" + file.getOriginalFilename();
+        File destination = new File(uploadFolder, filename);
+        file.transferTo(destination);
+    
+        return destination.getAbsolutePath(); // or return filename if you want only relative path
+    }
+    
+    
     public VerifiedDocumentEntity save(VerifiedDocumentEntity entity) {
         VerifiedDocumentEntity saved = repository.save(entity);
 
-        // ✅ If approved, assign the requested inventory to the recipient
         if ("APPROVED".equalsIgnoreCase(saved.getStatus()) && saved.getRequestedInventory() != null) {
             BloodInventoryEntity inventory = saved.getRequestedInventory();
             inventory.setRecipient(saved.getRecipient());
@@ -33,7 +49,7 @@ public class VerifiedDocumentService {
 
         return saved;
     }
-
+    
     public List<VerifiedDocumentEntity> getAll() {
         return repository.findAll();
     }

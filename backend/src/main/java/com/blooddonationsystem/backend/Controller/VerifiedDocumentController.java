@@ -1,22 +1,21 @@
 package com.blooddonationsystem.backend.Controller;
 
+import java.io.IOException;
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.blooddonationsystem.backend.Entity.UserEntity;
+import com.blooddonationsystem.backend.Entity.BloodInventoryEntity;
 import com.blooddonationsystem.backend.Entity.VerifiedDocumentEntity;
 import com.blooddonationsystem.backend.Service.VerifiedDocumentService;
+import com.blooddonationsystem.backend.Service.UserService;
+import com.blooddonationsystem.backend.Service.BloodInventoryService;
 
 @RestController
 @RequestMapping("/api/documents")
@@ -26,10 +25,38 @@ public class VerifiedDocumentController {
     @Autowired
     private VerifiedDocumentService service;
 
-    @PostMapping
-    public ResponseEntity<VerifiedDocumentEntity> submit(@RequestBody VerifiedDocumentEntity entity) {
-        return ResponseEntity.ok(service.save(entity));
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private BloodInventoryService inventoryService;
+
+    @PostMapping(value = "/upload", consumes = "multipart/form-data")
+    public ResponseEntity<VerifiedDocumentEntity> submitWithFile(
+        @RequestParam("documentType") String documentType,
+        @RequestParam("requestedInventoryId") int requestedInventoryId,
+        @RequestParam("userEmail") String userEmail,
+        @RequestParam("file") MultipartFile file
+    ) throws IOException {
+        UserEntity recipient = userService.getByEmail(userEmail)
+            .orElseThrow(() -> new RuntimeException("User not found"));
+    
+        BloodInventoryEntity inventory = inventoryService.getById(requestedInventoryId)
+            .orElseThrow(() -> new RuntimeException("Inventory not found"));
+    
+        String filePath = service.saveFile(file);
+    
+        VerifiedDocumentEntity doc = new VerifiedDocumentEntity();
+        doc.setDocumentType(documentType);
+        doc.setRequestedInventory(inventory);
+        doc.setRecipient(recipient);
+        doc.setFilePath(filePath);
+        doc.setStatus("PENDING");
+    
+        return ResponseEntity.ok(service.save(doc));
     }
+    
+    
 
     @GetMapping
     public ResponseEntity<List<VerifiedDocumentEntity>> getAll() {
@@ -51,13 +78,13 @@ public class VerifiedDocumentController {
     public ResponseEntity<List<VerifiedDocumentEntity>> getByStatus(@PathVariable String status) {
         return ResponseEntity.ok(service.getByStatus(status));
     }
-    
+
     @PutMapping("/{id}")
     public ResponseEntity<VerifiedDocumentEntity> update(@PathVariable int id, @RequestBody VerifiedDocumentEntity entity) {
-        entity.setDocumentId(id); // ensure consistency
+        entity.setDocumentId(id);
         return ResponseEntity.ok(service.save(entity));
     }
-    
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable int id) {
         service.delete(id);

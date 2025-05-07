@@ -1,0 +1,83 @@
+.verified-document-container {
+    min-height: 100vh;
+    background-color: #fdfdfd;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .verified-document-content {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border-radius: 12px;
+    margin-top: 2rem;
+  }
+  
+  .verified-title {
+    text-align: center;
+    font-size: 2rem;
+    color: #b71c1c;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+  }
+  
+  .verified-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+  
+  .verified-form label {
+    font-weight: 600;
+    color: #333;
+  }
+  
+  .verified-form select,
+  .verified-form input[type="file"] {
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1.5px solid #ccc;
+    border-radius: 6px;
+  }
+  
+  .verified-form input[type="file"] {
+    padding: 0.4rem;
+  }
+  
+  .verified-submit-button {
+    padding: 0.75rem;
+    font-size: 1rem;
+    background-color: #e53935;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .verified-submit-button:hover {
+    background-color: #c62828;
+  }
+  
+  .verified-message {
+    margin-top: 1rem;
+    padding: 0.75rem;
+    text-align: center;
+    border-radius: 6px;
+    font-weight: 500;
+  }
+  
+  .verified-message.success {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #81c784;
+  }
+  
+  .verified-message.error {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+  }
+  
