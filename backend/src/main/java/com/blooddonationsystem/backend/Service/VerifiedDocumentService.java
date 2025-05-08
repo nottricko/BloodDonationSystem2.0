@@ -33,7 +33,7 @@ public class VerifiedDocumentService {
         File destination = new File(uploadFolder, filename);
         file.transferTo(destination);
     
-        return destination.getAbsolutePath(); // or return filename if you want only relative path
+        return filename; // or return filename if you want only relative path
     }
     
     

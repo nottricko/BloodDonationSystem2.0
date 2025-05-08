@@ -24,7 +24,7 @@ const Register = () => {
         role: "USER" // Hardcoded to USER
       });
       alert("Registration successful");
-      window.location.href = "/landingpage"; // Redirect to login
+      window.location.href = "/"; // Redirect to login
     } catch (err) {
       alert("Registration failed: " + err.response?.data || err.message);
     }
