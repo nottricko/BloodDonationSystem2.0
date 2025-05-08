@@ -21,7 +21,7 @@ import com.blooddonationsystem.backend.Service.BloodDonationService;
 @RestController
 @RequestMapping("/api/donations")
 @CrossOrigin(origins = "http://localhost:3000")
-public class BloodDonationController {
+public class    BloodDonationController {
 
     @Autowired
     private BloodDonationService donationService;
