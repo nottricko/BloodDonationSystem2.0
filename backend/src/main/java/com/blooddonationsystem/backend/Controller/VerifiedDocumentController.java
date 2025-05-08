@@ -1,21 +1,35 @@
 package com.blooddonationsystem.backend.Controller;
 
 import java.io.IOException;
-import java.security.Principal;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.blooddonationsystem.backend.Entity.UserEntity;
 import com.blooddonationsystem.backend.Entity.BloodInventoryEntity;
+import com.blooddonationsystem.backend.Entity.UserEntity;
 import com.blooddonationsystem.backend.Entity.VerifiedDocumentEntity;
-import com.blooddonationsystem.backend.Service.VerifiedDocumentService;
-import com.blooddonationsystem.backend.Service.UserService;
 import com.blooddonationsystem.backend.Service.BloodInventoryService;
+import com.blooddonationsystem.backend.Service.UserService;
+import com.blooddonationsystem.backend.Service.VerifiedDocumentService;
 
 @RestController
 @RequestMapping("/api/documents")
@@ -57,7 +71,20 @@ public class VerifiedDocumentController {
     }
     
     
+    @GetMapping("/file/{filename:.+}")
+    public ResponseEntity<Resource> getFile(@PathVariable String filename) throws IOException {
+        Path filePath = Paths.get(System.getProperty("user.home"), "blood_donation_uploads", filename);
+        Resource resource = new UrlResource(filePath.toUri());
 
+        if (!resource.exists() || !resource.isReadable()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok()
+            .contentType(MediaType.APPLICATION_OCTET_STREAM)
+            .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + filename + "\"")
+            .body(resource);
+    }
     @GetMapping
     public ResponseEntity<List<VerifiedDocumentEntity>> getAll() {
         return ResponseEntity.ok(service.getAll());
