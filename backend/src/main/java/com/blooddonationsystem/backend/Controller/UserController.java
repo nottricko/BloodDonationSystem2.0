@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.blooddonationsystem.backend.DTO.LoginRequest;
 import com.blooddonationsystem.backend.DTO.RegisterRequest;
+import com.blooddonationsystem.backend.DTO.UserProfileRequest;
 import com.blooddonationsystem.backend.Entity.UserEntity;
 import com.blooddonationsystem.backend.Service.UserService;
 
@@ -72,10 +73,33 @@ public class UserController {
         user.setUserId(id);
         return ResponseEntity.ok(userService.save(user));
     }
-    
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable int id) {
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();
     }
+    @GetMapping("/profile/{id}")
+    public ResponseEntity<UserEntity> getUserProfile(@PathVariable int id) {
+        return userService.getUserById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    // Update the profile information of a specific user
+    @PutMapping("/profile/{id}")
+    public ResponseEntity<UserEntity> updateUserProfile(@PathVariable int id, @RequestBody UserProfileRequest userProfileRequest) {
+        UserEntity existingUser = userService.getUserById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        // Update user profile fields (for example: address, contact number)
+        existingUser.setAddress(userProfileRequest.getAddress());
+        existingUser.setContactNumber(userProfileRequest.getContactNumber());
+        existingUser.setProfileImage(userProfileRequest.getProfileImage());
+
+        // Save the updated profile
+        UserEntity updatedUser = userService.save(existingUser);
+        return ResponseEntity.ok(updatedUser);
+    }
 }
+

@@ -18,15 +18,20 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
+    try{
       await axios.post("http://localhost:8080/api/users/register", {
         ...formData,
-        role: "USER" // Hardcoded to USER
+        role: "USER"
       });
       alert("Registration successful");
       window.location.href = "/landingpage"; // Redirect to login
-    } catch (err) {
-      alert("Registration failed: " + err.response?.data || err.message);
+   } catch (err) {
+      const errorMessage = err.response?.data || err.message;
+      if (errorMessage.includes("Email already exists")) {
+         alert("Email is already registered. Please use a different email.");
+      } else {
+         alert("Registration failed: " + errorMessage);
+      }
     }
   };
 
