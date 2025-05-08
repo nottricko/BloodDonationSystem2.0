@@ -37,7 +37,7 @@ const VerifiedDocument = () => {
 
       alert('Document submitted successfully!');
       localStorage.removeItem('selectedInventoryId');
-      navigate('/');
+      navigate('/landingpage');
     } catch (err) {
       console.error('Upload error:', err);
       alert('Error submitting document.');
