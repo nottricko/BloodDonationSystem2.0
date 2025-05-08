@@ -12,14 +12,23 @@ const DonateBlood = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:8080/api/donations  ", {
+      // First, submit the donation
+      await axios.post("http://localhost:8080/api/donations", {
         bloodType,
         donationDate,
         donor: { userId: donorId },
         hospital: { hospitalId: parseInt(hospitalId) },
         status: "PENDING",
       });
-      alert("Donation submitted successfully.");
+  
+      // After successful donation, create a notification for the admin
+      await axios.post("http://localhost:8080/api/notifications", {
+        message: `New blood donation submitted by Donor ID: ${donorId} for Blood Type: ${bloodType}`,
+        type: "Donation",
+        status: "UNREAD",
+      });
+  
+      alert("Donation submitted successfully and notification sent to admin.");
     } catch (err) {
       alert("Failed to donate blood: " + (err.response?.data?.message || err.message));
     }
