@@ -1,6 +1,8 @@
 package com.blooddonationsystem.backend.Controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -49,11 +51,19 @@ public class UserController {
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequest request) {
         try {
             UserEntity user = userService.login(request.getEmail(), request.getPassword());
-            return ResponseEntity.ok("Login successful for " + user.getEmail());
+
+            // ✅ Respond with role and ID
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "Login successful");
+            response.put("email", user.getEmail());
+            response.put("role", user.getRole().toString());
+            response.put("userId", user.getUserId());
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
             return ResponseEntity.status(401).body(e.getMessage());
         }
     }
+
 
     @GetMapping
     public ResponseEntity<List<UserEntity>> getAll() {

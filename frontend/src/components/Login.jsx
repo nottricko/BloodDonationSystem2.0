@@ -11,14 +11,26 @@ const Login = ({ onLoginSuccess }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:8080/api/users/login/manual", {
+      const response = await axios.post("http://localhost:8080/api/users/login/manual", {
         email,
         password,
       });
-      alert("Login successful");
+  
+      const { role, userId } = response.data;
+  
+      // ✅ Store login info
       localStorage.setItem("userEmail", email);
-      if (onLoginSuccess) onLoginSuccess();
-      navigate("/landingpage");
+      localStorage.setItem("userId", userId);
+      localStorage.setItem("role", role);
+  
+      alert("Login successful");
+  
+      // ✅ Redirect based on role
+      if (role === "ADMIN") {
+        navigate("/admin");
+      } else {
+        navigate("/landingpage");
+      }
     } catch (err) {
       alert("Login failed: " + err.response?.data || err.message);
     }
