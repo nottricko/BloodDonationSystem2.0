@@ -9,6 +9,7 @@ import VerifiedDocument from "./components/VerifiedDocument";
 import AboutUs from "./components/AboutUs";
 import AdminDashboard from "./components/AdminDashboard";
 import UserProfile from "./components/UserProfile";
+import Details from "./components/Details"; // Assuming you have a Details component
 
 function App() {
   return (
@@ -22,7 +23,7 @@ function App() {
         <Route path="/about-us" element={<AboutUs />} />
         <Route path="/verified-document" element={<VerifiedDocument />} />
         <Route path="/user-profile" element={<UserProfile />} />
-
+        <Route path="/details" element={<Details />} /> {/* Details route */}
         <Route path="/admin" element={<AdminDashboard />} /> {/* Admin Dashboard route */}
       
 

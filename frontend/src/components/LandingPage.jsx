@@ -35,7 +35,7 @@ const LandingPage = () => {
             </Grid>
             
             <Grid item>
-                <div className="hero-card red-dark" onClick={() => navigate("/blood-types")}>
+                <div className="hero-card red-dark" onClick={() => navigate("/details")}>
                 BLOOD TYPES AND<br />DETAILS
                 </div>  
             </Grid>
