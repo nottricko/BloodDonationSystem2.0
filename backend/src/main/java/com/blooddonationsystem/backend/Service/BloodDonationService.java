@@ -9,8 +9,12 @@ import org.springframework.stereotype.Service;
 
 import com.blooddonationsystem.backend.Entity.BloodDonationEntity;
 import com.blooddonationsystem.backend.Entity.BloodInventoryEntity;
+import com.blooddonationsystem.backend.Entity.HospitalClinicEntity;
+import com.blooddonationsystem.backend.Entity.UserEntity;
 import com.blooddonationsystem.backend.Repository.BloodDonationRepository;
 import com.blooddonationsystem.backend.Repository.BloodInventoryRepository;
+import com.blooddonationsystem.backend.Repository.HospitalClinicRepository;
+import com.blooddonationsystem.backend.Repository.UserRepository;
 
 @Service
 public class BloodDonationService {
@@ -20,9 +24,22 @@ public class BloodDonationService {
 
     @Autowired
     private BloodInventoryRepository bloodInventoryRepository;
+    @Autowired
+    private UserRepository userRepository;
 
+    @Autowired
+    private HospitalClinicRepository hospitalRepository;
     public BloodDonationEntity saveDonation(BloodDonationEntity entity) {
+        UserEntity donor = userRepository.findById(entity.getDonor().getUserId())
+            .orElseThrow(() -> new RuntimeException("Donor not found"));
+        HospitalClinicEntity hospital = hospitalRepository.findById(entity.getHospital().getHospitalId())
+            .orElseThrow(() -> new RuntimeException("Hospital not found"));
+
+        entity.setDonor(donor);
+        entity.setHospital(hospital);
+
         BloodDonationEntity saved = donationRepository.save(entity);
+
 
         // ✅ Auto-create inventory if donation is approved
         if ("APPROVED".equalsIgnoreCase(saved.getStatus())) {

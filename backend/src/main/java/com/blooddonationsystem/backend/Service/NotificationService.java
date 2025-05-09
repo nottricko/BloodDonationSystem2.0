@@ -1,20 +1,19 @@
 package com.blooddonationsystem.backend.Service;
 
-import com.blooddonationsystem.backend.Entity.NotificationEntity;
-import com.blooddonationsystem.backend.Repository.NotificationRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import javax.management.Notification;
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.stereotype.Service;
+
+import com.blooddonationsystem.backend.Entity.NotificationEntity;
+import com.blooddonationsystem.backend.Repository.NotificationRepository;
 
 @Service
 public class NotificationService {
 
     private final NotificationRepository notificationRepository;
 
-    @Autowired
+  
     public NotificationService(NotificationRepository notificationRepository) {
         this.notificationRepository = notificationRepository;
     }
