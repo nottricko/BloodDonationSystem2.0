@@ -45,7 +45,6 @@ public class VerifiedDocumentController {
 
     @Autowired
     private BloodInventoryService inventoryService;
-    
 
     @PostMapping(value = "/upload", consumes = "multipart/form-data")
     public ResponseEntity<VerifiedDocumentEntity> submitWithFile(

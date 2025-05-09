@@ -1,33 +1,47 @@
 package com.blooddonationsystem.backend.Service;
 
-import com.blooddonationsystem.backend.Entity.NotificationEntity;
-import com.blooddonationsystem.backend.Entity.UserEntity;
-import com.blooddonationsystem.backend.Repository.NotificationRepository;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import com.blooddonationsystem.backend.Entity.NotificationEntity;
+import com.blooddonationsystem.backend.Repository.NotificationRepository;
 
 @Service
 public class NotificationService {
 
-    @Autowired
-    private NotificationRepository notificationRepository;
+    private final NotificationRepository notificationRepository;
 
-    public NotificationEntity createNotification(UserEntity user, String message, String status) {
-        NotificationEntity notification = new NotificationEntity(message, status, user);
+    @Autowired
+    public NotificationService(NotificationRepository notificationRepository) {
+        this.notificationRepository = notificationRepository;
+    }
+
+    // Create and submit a new notification
+    public NotificationEntity submitNotification(NotificationEntity notification) {
+        // By default, set the status to "Pending"
+        notification.setStatus("Pending");
         return notificationRepository.save(notification);
     }
 
-    public List<NotificationEntity> getUserNotifications(int userId) {
-        return notificationRepository.findByUser_UserIdOrderByTimestampDesc(userId);
+    // Fetch all notifications
+    public List<NotificationEntity> getAllNotifications() {
+        return notificationRepository.findAll();
     }
 
-    public void markAllAsRead(int userId) {
-        List<NotificationEntity> notifications = getUserNotifications(userId);
-        for (NotificationEntity n : notifications) {
-            n.setRead(true);
+    // Update the status of a notification (Approve/Reject)
+    public Optional<NotificationEntity> updateNotificationStatus(Long id, String status) {
+        Optional<NotificationEntity> notificationOptional = notificationRepository.findById(id);
+
+        if (notificationOptional.isPresent()) {
+            NotificationEntity notification = notificationOptional.get();
+            notification.setStatus(status);  // Set status to Approved/Rejected
+            return Optional.of(notificationRepository.save(notification));
         }
-        notificationRepository.saveAll(notifications);
+
+        return Optional.empty();
     }
 }
+

@@ -241,6 +241,8 @@ const AdminDashboard = () => {
               <div className="notification-detail">
                 <p><strong>Name:</strong> {selectedNotification.name}</p>
                 <p><strong>Type:</strong> {selectedNotification.type}</p>
+                <p><strong>Bloodtype:</strong> {selectedNotification.bloodType}</p>
+                <p><strong>Date:</strong> {selectedNotification.date}</p>
                 {selectedNotification.type === 'RECIPIENT' && selectedNotification.filePath && (
                   <>
                     <p><strong>Document:</strong> <a href={`http://localhost:8080/api/documents/file/${selectedNotification.full.filePath}`} target="_blank">View Document</a>
