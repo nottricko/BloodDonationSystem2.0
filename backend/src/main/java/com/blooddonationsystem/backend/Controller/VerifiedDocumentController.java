@@ -1,6 +1,7 @@
 package com.blooddonationsystem.backend.Controller;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -80,11 +81,14 @@ public class VerifiedDocumentController {
             return ResponseEntity.notFound().build();
         }
 
+        String contentType = Files.probeContentType(filePath); // auto-detect MIME type
+
         return ResponseEntity.ok()
-            .contentType(MediaType.APPLICATION_OCTET_STREAM)
+            .contentType(contentType != null ? MediaType.parseMediaType(contentType) : MediaType.APPLICATION_OCTET_STREAM)
             .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + filename + "\"")
             .body(resource);
     }
+
     @GetMapping
     public ResponseEntity<List<VerifiedDocumentEntity>> getAll() {
         return ResponseEntity.ok(service.getAll());

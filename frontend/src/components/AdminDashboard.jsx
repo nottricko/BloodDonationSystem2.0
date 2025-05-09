@@ -15,7 +15,8 @@ const AdminDashboard = () => {
   const [pendingDocuments, setPendingDocuments] = useState([]);
   const [bloodInventory, setBloodInventory] = useState([]);
 
-  const totalBloodUnits = bloodInventory.length;
+  const totalBloodUnits = bloodInventory.filter(item => item.requestStatus === 'NONE').length;
+
   const donorRequests = pendingDonations.length;
   const recipientRequests = pendingDocuments.length;
 
@@ -45,27 +46,28 @@ const AdminDashboard = () => {
         const formattedDonations = donationRes.data.map((donation) => ({
           id: donation.donationId,
           type: 'DONOR',
-          name: donation.donor
-            ? `${donation.donor.firstName} ${donation.donor.lastName}`
-            : 'Unknown',
+          name: donation.donor ? `${donation.donor.firstName} ${donation.donor.lastName}` : 'Unknown',
           bloodType: donation.bloodType,
           date: donation.donationDate,
-          time: donation.time || '',  
+          time: donation.time || '',
           status: donation.status,
           full: donation
         }));
-        
 
-        const formattedDocuments = documentRes.data.map((doc) => ({
-          id: doc.documentId,
-          type: 'RECIPIENT',
-          name: doc.recipient?.firstName + ' ' + doc.recipient?.lastName || 'Unknown',
-          bloodType: doc.requestedInventory?.type,
-          date: doc.submissionDate,
-          time: '--',
-          status: doc.status,
-          full: doc
-        }));
+        const formattedDocuments = documentRes.data.map((doc) => {
+          const recipient = doc.recipient;
+          const inventory = doc.requestedInventory;
+
+          return {
+            id: doc.documentId,
+            type: 'RECIPIENT',
+            name: recipient ? `${recipient.firstName} ${recipient.lastName}` : 'Unknown',
+            status: doc.status,
+            filePath: doc.filePath,
+            inventoryDetails: inventory,
+            full: doc
+          };
+        });
 
         setNotifications([...formattedDonations, ...formattedDocuments]);
       } catch (err) {
@@ -239,8 +241,22 @@ const AdminDashboard = () => {
               <div className="notification-detail">
                 <p><strong>Name:</strong> {selectedNotification.name}</p>
                 <p><strong>Type:</strong> {selectedNotification.type}</p>
-                <p><strong>Blood Type:</strong> {selectedNotification.bloodType}</p>
-                <p><strong>Date:</strong> {selectedNotification.date}</p>
+                {selectedNotification.type === 'RECIPIENT' && selectedNotification.filePath && (
+                  <>
+                    <p><strong>Document:</strong> <a href={`http://localhost:8080/api/documents/file/${selectedNotification.full.filePath}`} target="_blank">View Document</a>
+                    </p>
+                    {selectedNotification.inventoryDetails && (
+                      <div>
+                        <p><strong>Inventory Info:</strong></p>
+                        <ul>
+                          <li><strong>Inventory ID:</strong> {selectedNotification.inventoryDetails.inventoryId}</li>
+                          <li><strong>Type:</strong> {selectedNotification.inventoryDetails.bloodType}</li>
+                          <li><strong>Stored Date:</strong> {selectedNotification.inventoryDetails.storedDate}</li>
+                        </ul>
+                      </div>
+                    )}
+                  </>
+                )}
               </div>
               <div className="modal-actions">
                 <button onClick={() => setShowNotificationDetail(false)} className="cancel-button">
