@@ -54,9 +54,13 @@ public class BloodInventoryController {
     @GetMapping("/available")
     public ResponseEntity<List<BloodInventoryEntity>> getAvailableInventory() {
         List<BloodInventoryEntity> all = service.getAll();
+        
         List<BloodInventoryEntity> available = all.stream()
-            .filter(item -> item.getRecipient() == null && "NONE".equalsIgnoreCase(item.getRequestStatus()))
+            .filter(item -> 
+                (item.getRecipient() == null || item.getRequestStatus() == null || "NONE".equalsIgnoreCase(item.getRequestStatus()))
+            )
             .toList();
+    
         return ResponseEntity.ok(available);
     }
     
