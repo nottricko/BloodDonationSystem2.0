@@ -34,6 +34,7 @@ const Register = () => {
         address: formData.address
       };
       localStorage.setItem("userData", JSON.stringify(userData));
+
       alert("Registration successful");
       window.location.href = "/landingpage"; // Redirect to login or another page after registration
     } catch (err) {
