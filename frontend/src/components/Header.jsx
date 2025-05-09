@@ -32,9 +32,9 @@ const Header = () => {
       </div>
       
       <nav className="navigation">
-        <NavLink to="/" className="nav-item">HOME</NavLink>
-        <NavLink to="/request-blood" className="nav-item">REQUEST BLOOD</NavLink>
-        <NavLink to="/donate-blood" className="nav-item">DONATE BLOOD</NavLink>
+        <NavLink to="/landingpage" className="nav-item">HOME</NavLink>
+        <NavLink to="/request" className="nav-item">REQUEST BLOOD</NavLink>
+        <NavLink to="/donations" className="nav-item">DONATE BLOOD</NavLink>
         <NavLink to="/about-us" className="nav-item">ABOUT US</NavLink>
         
         <div className="user-dropdown" ref={dropdownRef}>
@@ -52,7 +52,7 @@ const Header = () => {
                 <User size={16} />
                 <span>Your Profile</span>
               </NavLink>
-              <NavLink to="/login" className="dropdown-item">
+              <NavLink to="/" className="dropdown-item">
                 <LogOut size={16} />
                 <span>Logout</span>
               </NavLink>

@@ -110,7 +110,7 @@
 
   // Handle redirect to landing page
   const handleLogoClick = () => {
-    navigate('/');
+    navigate('/landingpage');
   };
 
 
