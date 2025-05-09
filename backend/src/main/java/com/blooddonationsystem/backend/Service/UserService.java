@@ -15,6 +15,13 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    public Optional<UserEntity> getByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+    
+    public Optional<UserEntity> getById(int id) {
+        return userRepository.findById(id);
+    }
     public UserEntity save(UserEntity userEntity) {
         return userRepository.save(userEntity);
     }
