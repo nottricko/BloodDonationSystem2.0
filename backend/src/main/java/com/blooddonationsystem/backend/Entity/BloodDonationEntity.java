@@ -26,7 +26,7 @@ public class BloodDonationEntity {
 
     @ManyToOne
     @JoinColumn(name = "donor_id")
-    @JsonIgnoreProperties({"donations", "managedHospital", "assignedInventories", "verifiedDocuments", "reviewedDonations", "reviewedDocuments", "password"})
+    @JsonIgnoreProperties({"donations", "managedHospital", "assignedInventories", "verifiedDocuments", "reviewedDonations", "reviewedDocuments"})
     private UserEntity donor;
 
     @ManyToOne
