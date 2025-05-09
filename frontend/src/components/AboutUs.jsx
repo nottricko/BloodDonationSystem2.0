@@ -1,6 +1,9 @@
 import React from 'react';
 import '../styles/AboutUs.css';
 import Header from '../components/Header'; // Import your existing Header component
+import JohnImage from '../assets/jl.jpg'; // Import your image assets
+import ArvsImage from '../assets/arvs.jpeg';
+import LlagaImage from '../assets/llaga.jpg'; // Assuming you have an image for Hannah
 
 function AboutUs() {
   const teamMembers = [
@@ -8,7 +11,7 @@ function AboutUs() {
       id: 1,
       name: "John Lawrence L. Dioquino",
       title: "Team Lead",
-      image: "https://www.facebook.com/photo/?fbid=1638612629943873&set=a.378746149263867"
+      image: JohnImage
     },
     {
       id: 2,
@@ -20,13 +23,13 @@ function AboutUs() {
       id: 3,
       name: "Harvey Ortega",
       title: "Backend Developer",
-      image: "/api/placeholder/300/300"
+      image: ArvsImage
     },
     {
       id: 4,
       name: "Hannah Illaga",
       title: "Frontend Developer",
-      image: "/api/placeholder/300/300"
+      image: LlagaImage
     }
   ];
 
@@ -114,26 +117,26 @@ function AboutUs() {
             <div className="values-grid">
               <div className="value-item">
                 <div className="value-icon innovation"></div>
-                <h3>Innovation</h3>
-                <p>We constantly push boundaries to create cutting-edge solutions for tomorrow's challenges.</p>
+                <h3>Compassion</h3>
+                <p>We care deeply about the well-being of others and strive to alleviate suffering by ensuring timely access to life-saving blood.</p>
               </div>
               
               <div className="value-item">
                 <div className="value-icon security"></div>
-                <h3>Security</h3>
-                <p>We prioritize robust security measures to protect our users and their assets.</p>
+                <h3>Accessibility</h3>
+                <p>We believe everyone—regardless of status or location—deserves a fair chance at survival. Our platform is built to be inclusive and easy to use.</p>
               </div>
               
               <div className="value-item">
                 <div className="value-icon transparency"></div>
-                <h3>Transparency</h3>
-                <p>We believe in clear communication and openness in all our operations and practices.</p>
+                <h3>Integrity</h3>
+                <p>We uphold honesty, transparency, and accountability in all aspects of our system to build trust with our donors and recipients.</p>
               </div>
               
               <div className="value-item">
                 <div className="value-icon community"></div>
-                <h3>Community</h3>
-                <p>We value our diverse community and build solutions that cater to global needs.</p>
+                <h3>Community Empowerment</h3>
+                <p>We foster a spirit of bayanihan by encouraging individuals to become heroes through voluntary blood donation.</p>
               </div>
             </div>
           </div>
