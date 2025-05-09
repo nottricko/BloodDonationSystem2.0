@@ -31,6 +31,7 @@ public class UserEntity {
     private String contactNumber;
     private String address;
     private String password;
+    private String profileImage; // This could be a URL or path
 
     @Enumerated(EnumType.STRING)
     @Column(length = 10)
@@ -133,6 +134,14 @@ public class UserEntity {
     }
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public String getProfileImage() {
+        return profileImage;
+    }
+
+    public void setProfileImage(String profileImage) {
+        this.profileImage = profileImage;
     }
 
     public HospitalClinicEntity getManagedHospital() {

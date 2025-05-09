@@ -11,7 +11,9 @@ const Login = ({ onLoginSuccess }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:8080/api/users/login/manual", {
+
+      const res = await axios.post("http://localhost:8080/api/users/login/manual", {
+
         email,
         password,
       });
@@ -31,10 +33,19 @@ const Login = ({ onLoginSuccess }) => {
       } else {
         navigate("/landingpage");
       }
+
+      // Save the full user object to localStorage
+      localStorage.setItem("user", JSON.stringify(res.data));
+  
+      alert("Login successful");
+      if (onLoginSuccess) onLoginSuccess();
+      navigate("/landingpage");
+
     } catch (err) {
       alert("Login failed: " + err.response?.data || err.message);
     }
   };
+    
 
   return (
     <div
