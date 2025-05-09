@@ -20,9 +20,13 @@ public class VerifiedDocumentService {
 
     @Autowired
     private VerifiedDocumentRepository repository;
-
+    @Autowired
+    private NotificationService notificationService;
+    
     @Autowired
     private BloodInventoryRepository bloodInventoryRepository;
+
+
 
     public String saveFile(MultipartFile file) throws IOException {
         String uploadDir = System.getProperty("user.home") + File.separator + "blood_donation_uploads";
@@ -40,12 +44,22 @@ public class VerifiedDocumentService {
     public VerifiedDocumentEntity save(VerifiedDocumentEntity entity) {
         VerifiedDocumentEntity saved = repository.save(entity);
 
-        if ("APPROVED".equalsIgnoreCase(saved.getStatus()) && saved.getRequestedInventory() != null) {
-            BloodInventoryEntity inventory = saved.getRequestedInventory();
-            inventory.setRecipient(saved.getRecipient());
-            inventory.setRequestStatus("APPROVED");
-            bloodInventoryRepository.save(inventory);
-        }
+        if ((saved.getStatus().equalsIgnoreCase("APPROVED") || saved.getStatus().equalsIgnoreCase("REJECTED"))
+        && saved.getRequestedInventory() != null) {
+    
+        BloodInventoryEntity inventory = saved.getRequestedInventory();
+        inventory.setRecipient(saved.getRecipient());
+        inventory.setRequestStatus(saved.getStatus().toUpperCase());
+        bloodInventoryRepository.save(inventory);
+    
+        // 🔔 Send user notification
+        notificationService.createNotification(
+            saved.getRecipient(),
+            "Your blood request was " + saved.getStatus().toLowerCase() + ".",
+            saved.getStatus().toUpperCase()
+        );
+    }
+    
 
         return saved;
     }

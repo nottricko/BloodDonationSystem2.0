@@ -1,47 +1,33 @@
 package com.blooddonationsystem.backend.Service;
 
 import com.blooddonationsystem.backend.Entity.NotificationEntity;
+import com.blooddonationsystem.backend.Entity.UserEntity;
 import com.blooddonationsystem.backend.Repository.NotificationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.management.Notification;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class NotificationService {
 
-    private final NotificationRepository notificationRepository;
-
     @Autowired
-    public NotificationService(NotificationRepository notificationRepository) {
-        this.notificationRepository = notificationRepository;
-    }
+    private NotificationRepository notificationRepository;
 
-    // Create and submit a new notification
-    public NotificationEntity submitNotification(NotificationEntity notification) {
-        // By default, set the status to "Pending"
-        notification.setStatus("Pending");
+    public NotificationEntity createNotification(UserEntity user, String message, String status) {
+        NotificationEntity notification = new NotificationEntity(message, status, user);
         return notificationRepository.save(notification);
     }
 
-    // Fetch all notifications
-    public List<NotificationEntity> getAllNotifications() {
-        return notificationRepository.findAll();
+    public List<NotificationEntity> getUserNotifications(int userId) {
+        return notificationRepository.findByUser_UserIdOrderByTimestampDesc(userId);
     }
 
-    // Update the status of a notification (Approve/Reject)
-    public Optional<NotificationEntity> updateNotificationStatus(Long id, String status) {
-        Optional<NotificationEntity> notificationOptional = notificationRepository.findById(id);
-
-        if (notificationOptional.isPresent()) {
-            NotificationEntity notification = notificationOptional.get();
-            notification.setStatus(status);  // Set status to Approved/Rejected
-            return Optional.of(notificationRepository.save(notification));
+    public void markAllAsRead(int userId) {
+        List<NotificationEntity> notifications = getUserNotifications(userId);
+        for (NotificationEntity n : notifications) {
+            n.setRead(true);
         }
-
-        return Optional.empty();
+        notificationRepository.saveAll(notifications);
     }
 }
-

@@ -21,9 +21,12 @@ public class BloodDonationService {
     @Autowired
     private BloodInventoryRepository bloodInventoryRepository;
 
+    @Autowired
+    private NotificationService notificationService;
+
     public BloodDonationEntity saveDonation(BloodDonationEntity entity) {
         BloodDonationEntity saved = donationRepository.save(entity);
-
+    
         // ✅ Auto-create inventory if donation is approved
         if ("APPROVED".equalsIgnoreCase(saved.getStatus())) {
             BloodInventoryEntity inventory = new BloodInventoryEntity();
@@ -32,10 +35,19 @@ public class BloodDonationService {
             inventory.setDonation(saved);
             inventory.setRequestStatus("NONE");
             inventory.setRecipient(null); // not yet assigned
-
+    
             bloodInventoryRepository.save(inventory);
         }
-
+    
+        // 🔔 Notify donor about approval or rejection
+        if ("APPROVED".equalsIgnoreCase(saved.getStatus()) || "REJECTED".equalsIgnoreCase(saved.getStatus())) {
+            notificationService.createNotification(
+                saved.getDonor(),
+                "Your blood donation was " + saved.getStatus().toLowerCase() + ".",
+                saved.getStatus().toUpperCase()
+            );
+        }
+    
         return saved;
     }
 
