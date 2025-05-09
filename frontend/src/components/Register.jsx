@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import "../styles/Login.css"; // reuse login styles
+import "../styles/Login.css"; // reuse login stylesx  
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -19,14 +19,35 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      // Send registration request to the backend
       await axios.post("http://localhost:8080/api/users/register", {
         ...formData,
-        role: "USER" // Hardcoded to USER
+        role: "USER"
       });
+
+      // Store the user profile data in localStorage
+      const userData = {
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        email: formData.email,
+        contactNumber: formData.contactNumber,
+        address: formData.address
+      };
+      localStorage.setItem("userProfile", JSON.stringify(userData));
+
       alert("Registration successful");
+
       window.location.href = "/"; // Redirect to login
+
+      window.location.href = "/landingpage"; // Redirect to login or another page after registration
+
     } catch (err) {
-      alert("Registration failed: " + err.response?.data || err.message);
+      const errorMessage = err.response?.data || err.message;
+      if (errorMessage.includes("Email already exists")) {
+        alert("Email is already registered. Please use a different email.");
+      } else {
+        alert("Registration failed: " + errorMessage);
+      }
     }
   };
 

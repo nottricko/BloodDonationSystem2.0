@@ -8,7 +8,8 @@ import RequestBlood from "./components/RequestBlood";
 import VerifiedDocument from "./components/VerifiedDocument";
 
 import AdminDashboard from "./components/AdminDashboard";
-import AdminLogin from "./components/AdminLogin";
+import UserProfile from "./components/UserProfile";
+import AboutUs from "./components/AboutUs"; // ✅ Import About Us
 
 
 function App() {
@@ -24,7 +25,12 @@ function App() {
         <Route path="/verified-document" element={<VerifiedDocument />} />
 
         <Route path="/admin" element={<AdminDashboard />} /> {/* Admin Dashboard route */}
+
         <Route path="/admin-login" element={<AdminLogin />} /> {/* Admin Login route */}
+
+
+        <Route path="/user-profile" element={<UserProfile />} /> {/* User Profile route */}
+        <Route path="/about-us" element={<AboutUs />} /> {/* About Us route */}
 
       </Routes>
     </Router>
