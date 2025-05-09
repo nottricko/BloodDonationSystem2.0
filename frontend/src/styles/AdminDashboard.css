@@ -572,28 +572,3 @@
 .save-button:hover {
   background-color: #b91c1c;
 }
-.notification-item {
-  border: 1px solid #e5e7eb;
-  border-radius: 0.5rem;
-  padding: 1rem;
-  margin-bottom: 1rem;
-  background-color: #fff;
-}
-
-.notification-name-button {
-  font-weight: 600;
-  color: #dc2626;
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-
-.notification-name-button:hover {
-  text-decoration: underline;
-}
-
-.notification-actions {
-  margin-top: 0.75rem;
-  display: flex;
-  gap: 0.5rem;
-}
