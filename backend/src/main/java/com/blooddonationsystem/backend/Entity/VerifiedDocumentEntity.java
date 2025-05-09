@@ -1,7 +1,5 @@
 package com.blooddonationsystem.backend.Entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,17 +22,14 @@ public class VerifiedDocumentEntity {
 
     @ManyToOne
     @JoinColumn(name = "recipient_id")
-    @JsonIgnoreProperties({"verifiedDocuments", "donations", "assignedInventories", "reviewedDocuments", "reviewedDonations", "managedHospital", "password"})
     private UserEntity recipient;
 
     @ManyToOne
     @JoinColumn(name = "hospital_id")
-    @JsonIgnoreProperties({"admin", "verifiedDocuments", "donations"})
     private HospitalClinicEntity hospital;
 
     @ManyToOne
     @JoinColumn(name = "reviewed_by")
-    @JsonIgnoreProperties({"verifiedDocuments", "donations"})
     private UserEntity reviewedBy;
 
     @ManyToOne

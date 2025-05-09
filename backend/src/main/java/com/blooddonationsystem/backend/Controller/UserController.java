@@ -1,8 +1,6 @@
 package com.blooddonationsystem.backend.Controller;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -61,17 +59,6 @@ public class UserController {
         try {
             UserEntity user = userService.login(request.getEmail(), request.getPassword());
 
-
-            // ✅ Respond with role and ID
-            Map<String, Object> response = new HashMap<>();
-            response.put("message", "Login successful");
-            response.put("email", user.getEmail());
-            response.put("role", user.getRole().toString());
-            response.put("userId", user.getUserId());
-            return ResponseEntity.ok(response);
-        } catch (Exception e) {
-            return ResponseEntity.status(401).body(e.getMessage());
-
             // Create the response DTO
             LoginResponseDTO loginResponse = new LoginResponseDTO(
                     user.getUserId(),
@@ -89,10 +76,8 @@ public class UserController {
             // Log this exception on the server side for debugging
             // logger.error("Unexpected error during login for email: " + request.getEmail(), e);
             return ResponseEntity.status(500).body("An unexpected error occurred during login.");
-
         }
     }
-
 
     @GetMapping
     public ResponseEntity<List<UserEntity>> getAll() {

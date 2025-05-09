@@ -30,7 +30,6 @@ const Header = () => {
       <div className="logo">
         <h1>BLOOD DONATION MANAGEMENT SYSTEM</h1>
       </div>
-
       
       <nav className="navigation">
         <NavLink to="/" className="nav-item">HOME</NavLink>
