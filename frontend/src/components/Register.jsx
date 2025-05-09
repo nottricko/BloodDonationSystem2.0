@@ -34,8 +34,9 @@ const Register = () => {
         address: formData.address
       };
       localStorage.setItem("userData", JSON.stringify(userData));
+
       alert("Registration successful");
-      window.location.href = "/landingpage"; // Redirect to login or another page after registration
+      window.location.href = "/"; // Redirect to login or another page after registration
     } catch (err) {
       const errorMessage = err.response?.data || err.message;
       if (errorMessage.includes("Email already exists")) {

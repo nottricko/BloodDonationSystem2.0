@@ -4,8 +4,7 @@ import Header from '../components/Header'; // Import your existing Header compon
 import JohnImage from '../assets/jl.jpg'; // Import your image assets
 import ArvsImage from '../assets/arvs.jpeg';
 import LlagaImage from '../assets/llaga.jpg'; // Assuming you have an image for Hannah
-import Tricko from '../assets/pepito.jpg';
-
+import Tricko from '../assets/pepito.jpg'; 
 function AboutUs() {
   const teamMembers = [
     {
